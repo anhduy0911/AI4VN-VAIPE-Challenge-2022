@@ -1,0 +1,42 @@
+title: "AI4VN Challenge 2022 - VAIPE: Medicine Pill Image Recognition"
+description: Cuộc thi tìm kiếm và phát triển các thuật toán AI nhận dạng chính xác tên các loại thuốc uống, phát hiện việc uống thuốc ngoài đơn từ hình ảnh viên thuốc.
+image: logo.svg
+has_registration: True
+end_date: 2022-08-31
+html:
+    overview: overview.html
+    data: data.html
+    evaluation: evaluation.html
+    submission: submission.html
+    terms: terms.html
+phases:
+    1:
+        phasenumber: 1
+        label: "Public Test"
+        color: yellow
+        start_date: 2022-04-01
+        max_submissions: 999
+        max_submissions_per_day: 10
+        scoring_program: scoring_program.zip
+        reference_data: public_ground_truth.zip
+    2:
+        phasenumber: 2
+        label: "Private Test"
+        color: orange
+        start_date: 2022-05-21 5:00:00
+        max_submissions: 999
+        max_submissions_per_day: 5
+        scoring_program: scoring_program.zip
+        reference_data: private_ground_truth.zip
+
+leaderboard:
+    leaderboards:
+        CER: &CER
+            label: Final Score
+            rank: 1
+    columns:
+        CER:
+            leaderboard: *CER
+            label: CER
+            rank: 1
+            sort: asc

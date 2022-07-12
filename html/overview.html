@@ -1,0 +1,45 @@
+<h1><strong>Giới thiệu chung</strong></h1>
+<p><em><strong>Chủ đề. </strong></em>Chủ đề cuộc thi Vietnamese Scene Text Detection And Recognition là "Phát hiện và nhận diện văn bản <strong>Tiếng Việt</strong> trong ảnh khung cảnh".</p>
+<p><em><strong>Nhiệm vụ. </strong></em>Trong cuộc thi này, nhiệm vụ chính là phát hiện văn bản (Text detection) và nhận diện văn bản (Text recognition). Các đội thi sẽ đưa ra các giải pháp phát hiện và nhận diện văn bản trong khung cảnh (scene text). Dữ liệu được thu thập từ google hình ảnh, video, trang web, chụp ảnh.</p>
+<p>Sau khi phát hiện văn bản ở trong ảnh bằng việc được vẽ bounding box xung quanh (Polygon 4 cạnh cho mỗi văn bản), ta có cần nhận diện văn bản này. Tuy nhiên, văn bản có hai loại văn bản là dễ đọc và khó đọc. Đối với văn bản dễ đọc được gán nhãn là văn bản nằm trong bounding box, đối với văn bản khó đọc được gán nhãn ###. Kết quả đánh giá cuối cùng tính toán dựa trên những văn bản dễ đọc.</p>
+<p><strong><em>Dữ liệu.</em></strong> Dữ liệu gồm 3 tập: 
+<ul>
+    <li>Dữ liệu huấn luyện gồm 1500 ảnh (trong đó 1000 ảnh được cung cấp bởi VinAI [1] và 500 ảnh cung cấp bởi trung tâm BK.AI)</li>
+    <li>Dữ liệu kiểm thử cho giai đoạn Public Test gồm 200 ảnh</li>
+    <li>Dữ liệu kiểm thử cho giai đoạn Private Test gồm 300 ảnh</li>
+</ul>
+Trong đó: Đầu vào cho mô hình là các ảnh thô không có bounding box. Groundtruth là các file .txt. Mỗi dòng của tệp kết quả .txt sẽ biểu diễn cho một bounding box (tọa độ 4 điểm) và nhãn của văn bản chứa trong bounding box đó. Định dạng như sau:
+<ul>
+    <li> x1,y1,x2,y2,x3,y3,x4,y4,Nhãn</li>
+</ul>
+<p><em><strong>Hướng dẫn nộp kết quả.</strong></em> (chi tiết xem tại phần <span style="text-decoration: underline;">Submission</span>)</p>
+<p>Với mỗi ảnh tên img_{num}.jpg, đội thi cần xuất kết ra file .txt. Tên file .txt sẽ có định dạng res_img_{num}.txt trong đó num là số thứ tự của ảnh.</p>
+<p>Ví dụ: ảnh <strong>img_1</strong>.jpg thì cần xuất kết quả ra tệp <strong>res_img_1</strong>.txt</p>
+<p>Sau đó tất cả file res_img_{num}.txt sẽ được nén thành file <em>prediction.zip</em> và nộp lên thệ thống.</p>
+
+<p><em><strong>Tiêu chí đánh giá.</strong></em> CER đại diện cho phần trăm ký tự trong văn bản của tệp grouth truth bị dự đoán không chính xác. CER càng thấp thì mô hình nhận diện càng chính xác. (chi tiết xem tại phần <span style="text-decoration: underline;">Evaluation</span>)</p>
+<p><em><strong>Quy định.</strong></em> Các đội tham gia được sử dụng pre-trained model nhưng không được huấn luyện cho Tiếng Việt. Ví dụ: Có thể sử dụng pre-trained model để phát hiện và nhận diện tiếng Anh. Ngoài ra, các đội thi cần đọc kĩ <a href="https://bkai.ai/thong-bao-cuoc-thi-bkai-naver-challenge-2022/">quy tắc chung.</a>
+<p><em><strong>Scene Text Localization And Recognition Challenge</strong></em> sẽ được diễn ra với 2 giai đoạn: giai đoạn <strong>Public Test</strong> và giai đoạn <strong>Private Test</strong>:</p>
+<ul>
+<li>Giai đoạn <strong>Public Test (01/04/2022 - 21/05/2022)</strong>: nhằm lan tỏa thông tin tới toàn bộ cộng đồng IT &amp; AI tại Việt Nam, từ đó giúp cộng đồng có thời gian tiếp cận với các hướng xử lý bài toán. Đồng thời, trong thời gian này, các đội thi sẽ được tiếp cận với dữ liệu thực tế, huấn luyện mô hình và đánh giá mô hình thông qua hệ thống đánh giá tự động. Số lần nộp bài tối đa là 10 lần trong 1 ngày.<br />Dữ liệu trong vòng Public Test bao gồm 235 ảnh để đánh giá. </li>
+</ul>
+<ul>
+<li>Giai đoạn <strong>Private Test</strong><strong> (21/05/2022 - 22/05/2022)</strong>: diễn ra trong vòng <strong>01</strong> <strong>ngày</strong>. Trong giai đoạn này, các đội thi sẽ nộp kết quả cuối cùng sử dụng mô hình đã được huấn luyện sẵn ở giai đoạn <strong>Public Test</strong>. Số lần nộp bài tối đa là <strong>5 lần</strong>.</li>
+</ul>
+<!-- <p><em><strong>Mốc thời gian quan trọng</strong></em></p>
+<ul>
+<li><span style="text-decoration: line-through;"><strong>22 tháng 6, 2021</strong>: Bắt đầu công bố cuộc thi trên các phương tiện truyền thông</span></li>
+<li><span style="text-decoration: line-through;"><strong>23 tháng 6, 2021</strong>: Bắt đầu vòng Public Test - Giai đoạn Khởi động</span></li>
+<li><span style="text-decoration: line-through;"><strong>28 tháng 6, 2021</strong>: Hạn đăng kí tham gia và sáp nhập đội thi Giai đoạn Khởi động</span></li>
+<li><span style="text-decoration: line-through;"><strong>29 tháng 6, 2021</strong>: Bắt đầu Bắt đầu vòng Private Test - Giai đoạn Khởi động</span></li>
+<li><span style="text-decoration: line-through;"><strong>01 tháng 7, 2021 23:59:59 (GMT +07)</strong>: Kết thúc Private Test - Giai đoạn Khởi động</span></li>
+<li><span style="text-decoration: line-through;"><strong>02 tháng 07, 2021 - 27 tháng 07, 2021</strong>: Báo cáo giải pháp và trao giải Giai đoạn Khởi động</span></li>
+<li><span style="text-decoration: line-through;"><strong>28 tháng 7, 2021</strong>: Bắt đầu vòng Public Test - Giai đoạn Về đích</span> (Hạn cũ: <s>19</s><s> tháng 7, 2021</s>)</li>
+<li><strong>07 tháng 08, 2021</strong>: Hạn đăng kí tham gia Giai đoạn Về đích (Hạn cũ: <s>29 tháng 7, 2021</s>)</li>
+<li><strong>14 tháng 08, 2021</strong>: Hạn sáp nhập đội thi và đăng kí pre-trained model (Hạn cũ: <s>05 tháng 8, 2021</s>)</li>
+<li><strong>24 tháng 08, 2021</strong>: Bắt đầu vòng Private Test - Giai đoạn Về đích (Hạn cũ: <s>15 tháng 8, 2021</s>)</li>
+<li><strong>28 tháng 08, 2021 <strong>23:59:59 (GMT +07)</strong></strong>: Kết thúc cuộc thi (Hạn cũ: <s>20 tháng 8, 2021</s>)</li>
+<li><strong>Lễ trao giải:</strong> Sẽ công bố trong thời gian tới</li>
+</ul> -->
+<p><strong><em>Trích dẫn và tài liệu tham khảo</em></strong></p>
+<p>[1] N. Nguyen et al., "Dictionary-guided Scene Text Recognition," 2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2021, pp. 7379-7388, doi: 10.1109/CVPR46437.2021.00730.</p>

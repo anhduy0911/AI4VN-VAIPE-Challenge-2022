@@ -1,0 +1,16 @@
+<p><strong>Định dạng của dữ liệu</strong></p>
+<p>Với mỗi ảnh tên img_{num}.jpg, đội thi cần xuất kết ra file .txt. Tên file .txt sẽ có định dạng res_img_{num}.txt trong đó num là số thứ tự của ảnh.</p>
+<p style="padding-left: 30px;">Ví dụ: ảnh <strong>img_1</strong>.jpg thì cần xuất kết quả ra tệp <strong>res_img_1</strong>.txt</p>
+<p>Mỗi dòng của tệp kết quả .txt sẽ biểu diễn cho một bounding box (tọa độ 4 điểm) và nhãn của chữ chứa trong bounding box đó. Định dạng như sau: </p>
+<p style="padding-left: 30px;">x1,y1,x2,y2,x3,y3,x4,y4,Nhãn</p>
+<p style="padding-left: 30px;">Trong đó: tọa độ 4 điểm của bounding box được xếp theo chiều kinh đồng hồ với:</p>
+<ul>
+<ul>
+<li>(x1,y1) là tọa độ của điểm top-left, </li>
+<li>(x2,y2) là tọa độ của điểm top-right,</li>
+<li>(x3,y3) là tọa độ của điểm bottom-right,</li>
+<li>(x4,y4) là tọa độ của điểm bottom-left.</li>
+</ul>
+</ul>
+<p style="padding-left: 30px;">Ví dụ: 344,232,443,239,440,288,341,280,PHúC</p>
+<p>Lưu ý: Nén tất cả các file kết quả vào file .zip (Ví dụ: <strong>submit.zip)</strong> và nộp lên hệ thống. Các file kết quả trong file .zip <strong>không được</strong> nằm trong thư mục cha nào.</p>

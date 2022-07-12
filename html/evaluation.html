@@ -1,0 +1,22 @@
+<p><strong>Tiêu chí đánh giá</strong></p>
+<p>Kết quả sẽ được đánh giá dựa trên chỉ số CER (Character Error Rate).
+    CER đại diện cho phần trăm ký tự trong văn bản của tệp grouth truth bị dự đoán <strong>không chính xác</strong>.
+    CER càng thấp thì mô hình nhận diện càng chính xác.
+    
+</p>
+<p>CER được tính theo công thức:</p>
+<p><img src="https://raw.githubusercontent.com/ngminhhieu/bkai-challenge-public-materials/main/cer.svg" alt="" width="167" height="50" /></p>
+<p>trong đó S: số ký tự của prediciton bị sai so với groundtruth, D: số ký tự của prediction bị thiếu so với groudtruth, I: số ký tự của prediction cần thêm vào so với groundtruth, N: số ký tự của groundtruth</p>
+<p><strong>Ví dụ:</strong> grouthtruth là <strong>032022A</strong>BCD và kết quả nhận diện bởi mô hình là O320Z2BCD có hai kí tự cần thay là: O thay thế 0 và Z thay thế 2 , một kí tự bị thiếu là: A bị thiếu, và không có kí tự nào cần thêm. Do đó S=2, D=1, I=0, CER = (2+1+0)/10= 0.3.</p> 
+<p>Điểm số cuối cùng sau khi các đội thi nộp kết quả lên hệ thống là:</p>
+<p><img src="https://raw.githubusercontent.com/ngminhhieu/bkai-challenge-public-materials/main/final_score.svg" alt="" width="254" height="71" /></p>
+<p>Trong đó:</p>
+<ul>
+    <li><em>n</em> là số file .txt (tương ứng với số ảnh đầu vào cần nhận diện),</li>
+    <li><em>m<sub>i</sub></em> là số văn bản (số dòng) nằm trong file .txt thứ <em>i,</em></li>
+</ul>
+<p>Tuy nhiên, để tính CER cho từng văn bản, ta cần tìm đúng văn bản đang được nhận diện tương ứng văn bản nhãn nào. 
+    Trước khi nhận diện văn bản, mô hình cần phát hiện đâu là văn bản bằng việc vẽ bounding box xung quanh (Polygon 4 cạnh cho mỗi văn bản). 
+    Hai văn bản được xác định là cùng một vị trí khi bounding box của hai văn bản có chỉ số <em>IOU>=0.5</em>.
+    Dù vậy, hệ thống sẽ tự động tìm đúng văn bản cần nhận diện và văn bản nhãn tương ứng với nhau nếu định dạng kết quả là hợp lệ. Các đội thi không cần quan tới thứ tự nhận diện văn bản nào trước, văn bản nào sau.
+    Các đội thi cần xem chi tiết nộp bài tại <span style="text-decoration: underline;">Submission</span>.</p>
