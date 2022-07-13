@@ -14,7 +14,7 @@ phases:
         phasenumber: 1
         label: "Public Test"
         color: yellow
-        start_date: 2022-04-01
+        start_date: 2022-07-15
         max_submissions: 999
         max_submissions_per_day: 10
         scoring_program: scoring_program.zip
@@ -23,7 +23,7 @@ phases:
         phasenumber: 2
         label: "Private Test"
         color: orange
-        start_date: 2022-05-21 5:00:00
+        start_date: 2022-08-16 5:00:00
         max_submissions: 999
         max_submissions_per_day: 5
         scoring_program: scoring_program.zip
@@ -31,12 +31,12 @@ phases:
 
 leaderboard:
     leaderboards:
-        CER: &CER
+        wmAP: &wmAP
             label: Final Score
             rank: 1
     columns:
         CER:
-            leaderboard: *CER
-            label: CER
+            leaderboard: *wmAP
+            label: wmAP
             rank: 1
             sort: asc

@@ -6,7 +6,6 @@ from script import default_evaluation_params, validate_data, evaluate_method
 import subprocess
 from zipfile import ZipFile
 from os.path import basename
-
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 install("Polygon2")
@@ -35,4 +34,4 @@ if __name__ == "__main__":
     zip_files('prediction', submission_dir)
     res_dict = rrc_evaluation_funcs.main_evaluation({'g': '{}/groundtruth.zip'.format(truth_dir), 's': '{}/prediction.zip'.format(submission_dir)}, default_evaluation_params, validate_data, evaluate_method)
     with open(os.path.join(output_dir, 'scores.txt'), 'w') as output_file:
-        output_file.write("wmAP: {:f}\n".format(round(res_dict['method']['wmAP'], 4)))
+        output_file.write("CER: {:f}\n".format(round(res_dict['method']['cer'], 4)))
