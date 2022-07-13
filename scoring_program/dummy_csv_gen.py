@@ -25,7 +25,7 @@ for image_id in range(1000):
         gt["y_min"].append(int(random.uniform(0, 200)))
         gt["y_max"].append(int(random.uniform(gt["y_min"][-1], 200)))
 gt_df = pd.DataFrame(gt)
-gt_df.to_csv("gt.csv", index=False)
+gt_df.to_csv("groundtruth.csv", index=False)
 print(gt_df.head())
 predictions_df = gt_df.copy()
 
@@ -36,7 +36,7 @@ predictions_df["x_min"] = predictions_df["x_min"].apply(lambda x: int(max(0,min(
 predictions_df["x_max"] = predictions_df["x_max"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 200))))
 predictions_df["y_min"] = predictions_df["y_min"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 200))))
 predictions_df["y_max"] = predictions_df["y_max"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 200))))
-predictions_df.to_csv("predictions.csv", index=False)
+predictions_df.to_csv("results.csv", index=False)
 
 unique_id = gt_df["image_name"].unique().tolist()
 

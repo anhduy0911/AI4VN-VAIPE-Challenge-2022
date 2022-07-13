@@ -1,7 +1,7 @@
 
 import os
 import sys
-import rrc_evaluation_funcs
+import rrc_evaluation_funcs_copy as rrc_evaluation_funcs
 from script import default_evaluation_params, validate_data, evaluate_method
 import subprocess
 from zipfile import ZipFile

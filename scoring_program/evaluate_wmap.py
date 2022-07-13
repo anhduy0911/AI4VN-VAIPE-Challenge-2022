@@ -107,20 +107,20 @@ def convert_coco(df):
                                          "bbox": [row["x_min"], row["y_min"], row["x_max"], row["y_max"]], "iscrowd": 0})
     return coco_dict
 
-def wmAP(gt_df, pred_df):
+def wmAP(gt_df, pred_df, output_dir):
     gt_coco = convert_coco(gt_df)
     pred_coco = convert_coco(pred_df)
-    json.dump(gt_coco, open("gt.json", "w"))
-    json.dump(pred_coco, open("pred.json", "w"))
-    cocoGt = COCO("gt.json")
-    cocoPt=COCO("pred.json")
+    json.dump(gt_coco, open(os.path.join(output_dir,"gt.json"), "w"))
+    json.dump(pred_coco, open(os.path.join(output_dir,"pred.json"), "w"))
+    cocoGt = COCO(os.path.join(output_dir,"gt.json"))
+    cocoPt = COCO(os.path.join(output_dir,"pred.json"))
     cocoEval = COCOeval_wmAP(cocoGt, cocoPt, iouType='bbox')
     cocoEval.evaluate()
     cocoEval.accumulate()
     cocoEval.summarize()
     return cocoEval.stats[:6]
 
-def do_evaluation(gtruth_path, predict_path):
+def do_evaluation(gtruth_path, predict_path, output_dir):
     '''
     Do validation for the data
     '''
@@ -133,8 +133,8 @@ def do_evaluation(gtruth_path, predict_path):
         return gt_df, pred_df
 
     gt_df, pred_df = validate_data()
-    metrics = ['wmAP', 'wmAP0.5','wmAP0.75', 'wmAPs', 'wmAPm', 'wmAPl']
-    result = wmAP(gt_df, pred_df)
+    metrics = ['wmAP', 'wmAP50','wmAP75', 'wmAPs', 'wmAPm', 'wmAPl']
+    result = wmAP(gt_df, pred_df, output_dir)
     result_dict = {}
     for i, k in enumerate(metrics):
         result_dict[k] = result[i]

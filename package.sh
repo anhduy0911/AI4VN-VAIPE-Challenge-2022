@@ -4,9 +4,9 @@ rm competition.zip
 
 zip -j scoring_program.zip ./scoring_program/*
 
-zip -j public_ground_truth.zip ./data/public/groundtruth.zip
+zip -j public_ground_truth.zip ./data/public/groundtruth.csv
 
-zip -j private_ground_truth.zip ./data/private/groundtruth.zip
+zip -j private_ground_truth.zip ./data/private/groundtruth.csv
 
 zip -j competition.zip html/award.html html/data.html html/evaluation.html html/overview.html html/submission.html html/terms.html
 

@@ -36,12 +36,11 @@ if __name__ == "__main__":
     submission_dir = os.path.join(input_dir, 'res')
     truth_dir = os.path.join(input_dir, 'ref')
     
-    res_dict = do_evaluation(f'{truth_dir}/ground_truth.csv', f'{submission_dir}/results.csv')
-
+    res_dict = do_evaluation(f'{truth_dir}/groundtruth.csv', f'{submission_dir}/results.csv', output_dir)
     with open(os.path.join(output_dir, 'scores.txt'), 'w') as output_file:
         output_file.write("wmAP: {:f}\n".format(round(res_dict['wmAP'], 4)))
         output_file.write("wmAP50: {:f}\n".format(round(res_dict['wmAP50'], 4)))
         output_file.write("wmAP75: {:f}\n".format(round(res_dict['wmAP75'], 4)))
         output_file.write("wmAPs: {:f}\n".format(round(res_dict['wmAPs'], 4)))
         output_file.write("wmAPm: {:f}\n".format(round(res_dict['wmAPm'], 4)))
-        output_file.write("wmAPl: {:f}\n".format(round(res_dict['wmAPl'], 4)))
+        output_file.write("wmAPl: {:f}\n".format(round(res_dict['wmAPl'], 4))) 

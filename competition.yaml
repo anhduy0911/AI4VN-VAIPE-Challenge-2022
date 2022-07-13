@@ -14,7 +14,7 @@ phases:
         phasenumber: 1
         label: "Public Test"
         color: yellow
-        start_date: 2022-07-15
+        start_date: 2022-07-12
         max_submissions: 999
         max_submissions_per_day: 10
         scoring_program: scoring_program.zip
