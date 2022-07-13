@@ -121,5 +121,5 @@ def wmAP(gt_df, pred_df):
 
 if __name__ == "__main__":
     pred_df = pandas.read_csv("gt.csv")
-    gt_df = pandas.read_csv("predictions.csv")
+    gt_df = pandas.read_csv("gt.csv")
     wmap = wmAP(gt_df, pred_df)
