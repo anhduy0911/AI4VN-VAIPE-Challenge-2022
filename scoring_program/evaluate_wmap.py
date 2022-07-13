@@ -2,6 +2,7 @@ import pandas
 import os
 import os.path as osp
 import random
+import sys
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 import json
@@ -117,9 +118,32 @@ def wmAP(gt_df, pred_df):
     cocoEval.evaluate()
     cocoEval.accumulate()
     cocoEval.summarize()
-    return cocoEval.stats[0]
+    return cocoEval.stats[:6]
+
+def do_evaluation(gtruth_path, predict_path):
+    '''
+    Do validation for the data
+    '''
+    def validate_data():
+        '''
+        Do validation for the dataset
+        ''' 
+        gt_df = pandas.read_csv(gtruth_path)
+        pred_df = pandas.read_csv(predict_path)
+        return gt_df, pred_df
+
+    gt_df, pred_df = validate_data()
+    metrics = ['wmAP', 'wmAP0.5','wmAP0.75', 'wmAPs', 'wmAPm', 'wmAPl']
+    result = wmAP(gt_df, pred_df)
+    result_dict = {}
+    for i, k in enumerate(metrics):
+        result_dict[k] = result[i]
+    
+    return result_dict
 
 if __name__ == "__main__":
-    pred_df = pandas.read_csv("gt.csv")
-    gt_df = pandas.read_csv("gt.csv")
-    wmap = wmAP(gt_df, pred_df)
+    # pred_df = pandas.read_csv("groundtruth.csv")
+    # gt_df = pandas.read_csv("groundtruth.csv")
+    # wmap = wmAP(gt_df, pred_df)
+    # print(wmap)
+    print(do_evaluation('groundtruth.csv', 'predictions.csv'))

@@ -1,2 +1,2 @@
 command: python $program/evaluate.py $input $output
-description: BKAI OCR challenge scoring program
+description: AI4VN VAIPE challenge scoring program

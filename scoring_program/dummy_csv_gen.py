@@ -10,7 +10,8 @@ extra_box_rate = 0.1
 
 gt = {"image_name": [], "class_id": [], "confidence_score": [], "x_min": [], "y_min": [], "x_max": [], "y_max": []}
 for image_id in range(1000):
-    image_name = osp.join("data", "public_test", "image_%d.jpg" % image_id)
+    # image_name = osp.join("data", "public_test", "image_%d.jpg" % image_id)
+    image_name = "image_%d.jpg" % image_id
     for box_id in range(random.randint(1, 3)):
         if random.random() < alpha:
             class_id = random.randint(0, 105)

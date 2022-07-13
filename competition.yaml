@@ -31,12 +31,37 @@ phases:
 
 leaderboard:
     leaderboards:
-        wmAP: &wmAP
+        wmAP: &WMAP
             label: Final Score
             rank: 1
     columns:
-        CER:
-            leaderboard: *wmAP
+        wmAP:
+            leaderboard: *WMAP
             label: wmAP
             rank: 1
+            sort: asc
+        wmAP50:
+            leaderboard: *WMAP
+            label: wmAP50
+            rank: 2
+            sort: asc
+        wmAP75:
+            leaderboard: *WMAP
+            label: wmAP75
+            rank: 3
+            sort: asc
+        wmAPs:
+            leaderboard: *WMAP
+            label: wmAPs
+            rank: 4
+            sort: asc
+        wmAPm:
+            leaderboard: *WMAP
+            label: wmAPm
+            rank: 5
+            sort: asc
+        wmAPl:
+            leaderboard: *WMAP
+            label: wmAPl
+            rank: 6
             sort: asc

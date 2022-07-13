@@ -1,8 +1,9 @@
 
 import os
 import sys
-import rrc_evaluation_funcs
-from script import default_evaluation_params, validate_data, evaluate_method
+# import rrc_evaluation_funcs
+# from script import default_evaluation_params, validate_data, evaluate_method
+from evaluate_wmap import do_evaluation
 import subprocess
 from zipfile import ZipFile
 from os.path import basename
@@ -34,7 +35,13 @@ if __name__ == "__main__":
     [_, input_dir, output_dir] = sys.argv
     submission_dir = os.path.join(input_dir, 'res')
     truth_dir = os.path.join(input_dir, 'ref')
-    zip_files('prediction', submission_dir)
-    res_dict = rrc_evaluation_funcs.main_evaluation({'g': '{}/groundtruth.zip'.format(truth_dir), 's': '{}/prediction.zip'.format(submission_dir)}, default_evaluation_params, validate_data, evaluate_method)
+    
+    res_dict = do_evaluation(f'{truth_dir}/ground_truth.csv', f'{submission_dir}/results.csv')
+
     with open(os.path.join(output_dir, 'scores.txt'), 'w') as output_file:
-        output_file.write("wmAP: {:f}\n".format(round(res_dict['method']['wmAP'], 4)))
+        output_file.write("wmAP: {:f}\n".format(round(res_dict['wmAP'], 4)))
+        output_file.write("wmAP50: {:f}\n".format(round(res_dict['wmAP50'], 4)))
+        output_file.write("wmAP75: {:f}\n".format(round(res_dict['wmAP75'], 4)))
+        output_file.write("wmAPs: {:f}\n".format(round(res_dict['wmAPs'], 4)))
+        output_file.write("wmAPm: {:f}\n".format(round(res_dict['wmAPm'], 4)))
+        output_file.write("wmAPl: {:f}\n".format(round(res_dict['wmAPl'], 4)))
