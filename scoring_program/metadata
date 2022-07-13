@@ -1,2 +1,2 @@
-command: python3.9 $program/evaluate.py $input $output
+command: python3 $program/evaluate.py $input $output
 description: AI4VN VAIPE challenge scoring program

@@ -132,9 +132,12 @@ def do_evaluation(gtruth_path, predict_path, output_dir):
         pred_df = pandas.read_csv(predict_path)
         return gt_df, pred_df
 
+    print('Let load the data')
     gt_df, pred_df = validate_data()
+    print('Load finish')
     metrics = ['wmAP', 'wmAP50','wmAP75', 'wmAPs', 'wmAPm', 'wmAPl']
     result = wmAP(gt_df, pred_df, output_dir)
+    print('calculate wmap finish')
     result_dict = {}
     for i, k in enumerate(metrics):
         result_dict[k] = result[i]
