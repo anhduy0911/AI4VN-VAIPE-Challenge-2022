@@ -8,7 +8,7 @@ alpha = 0.95
 predicted_acc = 0.8
 extra_box_rate = 0.1
 
-gt = {"image_name": [], "class_id": [], "confidence_score": [], "x_min": [], "y_min": [], "x_max": [], "y_max": []}
+gt = {"image_name": [], "class_id": [], "confidence_score": [], "x_min": [], "y_min": [], "x_max": [], "y_max": [], "image_width": [], "image_height": []}
 for image_id in range(1000):
     # image_name = osp.join("data", "public_test", "image_%d.jpg" % image_id)
     image_name = "image_%d.jpg" % image_id
@@ -24,6 +24,8 @@ for image_id in range(1000):
         gt["x_max"].append(int(random.uniform(gt["x_min"][-1], 200)))
         gt["y_min"].append(int(random.uniform(0, 200)))
         gt["y_max"].append(int(random.uniform(gt["y_min"][-1], 200)))
+        gt["image_width"].append(200)
+        gt["image_height"].append(200)
 gt_df = pd.DataFrame(gt)
 gt_df.to_csv("groundtruth.csv", index=False)
 print(gt_df.head())
