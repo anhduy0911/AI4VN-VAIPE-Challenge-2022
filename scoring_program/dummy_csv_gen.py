@@ -8,36 +8,39 @@ alpha = 0.95
 predicted_acc = 0.8
 extra_box_rate = 0.1
 
-gt = {"image_name": [], "class_id": [], "confidence_score": [], "x_min": [], "y_min": [], "x_max": [], "y_max": [], "image_width": [], "image_height": []}
-for image_id in range(1000):
-    # image_name = osp.join("data", "public_test", "image_%d.jpg" % image_id)
-    image_name = "image_%d.jpg" % image_id
-    for box_id in range(random.randint(1, 3)):
-        if random.random() < alpha:
-            class_id = random.randint(0, 105)
-        else:
-            class_id = 106
-        gt["image_name"].append(image_name)
-        gt["class_id"].append(class_id)
-        gt["confidence_score"].append(1.0)
-        gt["x_min"].append(int(random.uniform(0, 200)))
-        gt["x_max"].append(int(random.uniform(gt["x_min"][-1], 200)))
-        gt["y_min"].append(int(random.uniform(0, 200)))
-        gt["y_max"].append(int(random.uniform(gt["y_min"][-1], 200)))
-        gt["image_width"].append(200)
-        gt["image_height"].append(200)
-gt_df = pd.DataFrame(gt)
-gt_df.to_csv("groundtruth.csv", index=False)
+# gt = {"image_name": [], "class_id": [], "confidence_score": [], "x_min": [], "y_min": [], "x_max": [], "y_max": [], "image_width": [], "image_height": []}
+# for image_id in range(1000):
+#     # image_name = osp.join("data", "public_test", "image_%d.jpg" % image_id)
+#     image_name = "image_%d.jpg" % image_id
+#     for box_id in range(random.randint(1, 3)):
+#         if random.random() < alpha:
+#             class_id = random.randint(0, 105)
+#         else:
+#             class_id = 106
+#         gt["image_name"].append(image_name)
+#         gt["class_id"].append(class_id)
+#         gt["confidence_score"].append(1.0)
+#         gt["x_min"].append(int(random.uniform(0, 200)))
+#         gt["x_max"].append(int(random.uniform(gt["x_min"][-1], 200)))
+#         gt["y_min"].append(int(random.uniform(0, 200)))
+#         gt["y_max"].append(int(random.uniform(gt["y_min"][-1], 200)))
+#         gt["image_width"].append(200)
+#         gt["image_height"].append(200)
+# gt_df = pd.DataFrame(gt)
+# gt_df.to_csv("groundtruth.csv", index=False)
+
+gt_df = pd.read_csv('groundtruth.csv', header=0, index_col=None)
 print(gt_df.head())
 predictions_df = gt_df.copy()
 
 ##Add noise into gt to create dummy predictions
+N = len(gt_df)
 predictions_df["class_id"] = predictions_df["class_id"].apply(lambda x: x if random.random() < predicted_acc else random.randint(0, 106))
-predictions_df["confidence_score"] = predictions_df["confidence_score"].apply(lambda x: random.uniform(0.7, 1))
-predictions_df["x_min"] = predictions_df["x_min"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 200))))
-predictions_df["x_max"] = predictions_df["x_max"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 200))))
-predictions_df["y_min"] = predictions_df["y_min"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 200))))
-predictions_df["y_max"] = predictions_df["y_max"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 200))))
+predictions_df["confidence_score"] = [random.uniform(0.7, 1) for _ in range(N)]
+predictions_df["x_min"] = predictions_df["x_min"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 5000))))
+predictions_df["x_max"] = predictions_df["x_max"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 5000))))
+predictions_df["y_min"] = predictions_df["y_min"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 5000))))
+predictions_df["y_max"] = predictions_df["y_max"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 5000))))
 predictions_df.to_csv("results.csv", index=False)
 
 unique_id = gt_df["image_name"].unique().tolist()

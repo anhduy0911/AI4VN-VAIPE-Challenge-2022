@@ -9,18 +9,18 @@ import json
 import numpy as np
 
 class COCOeval_wmAP(COCOeval):
-    def __init__(self, gt_coco, res_coco, iouType='segm', num_cls=107, alpha=10):
+    def __init__(self, gt_coco, res_coco, iouType='segm', num_cls=107, alpha=100):
         super(COCOeval_wmAP, self).__init__(gt_coco, res_coco, iouType)
         self.num_cls = num_cls
-        self.weights = np.array([1 if i!=106 else alpha for i in range(num_cls)])
-
+        # self.weights = np.array([1 if i!=106 else alpha for i in range(num_cls)])
+        self.alpha = alpha
 
     def summarize(self):
         '''
         Compute and display summary metrics for evaluation results.
         Note this functin can *only* be applied on the default parameter setting
         '''
-        def _summarize( ap=1, iouThr=None, areaRng='all', maxDets=100 ):
+        def _summarize(ap=1, iouThr=None, areaRng='all', maxDets=100):
             p = self.params
             iStr = ' {:<18} {} @[ IoU={:<9} | area={:>6s} | maxDets={:>3d} ] = {:0.3f}'
             titleStr = 'Average Precision' if ap == 1 else 'Average Recall'
@@ -49,9 +49,12 @@ class COCOeval_wmAP(COCOeval):
                 mean_s = -1
             else:
                 s[s==-1] =0
-                mean_s = np.mean(np.average(s, weights=self.weights, axis=-2))
+                n_cls = s.shape[-2]
+                weights = np.array([1 if i!=106 else self.alpha for i in range(n_cls)])
+                mean_s = np.mean(np.average(s, weights=weights, axis=-2))
             print(iStr.format(titleStr, typeStr, iouStr, areaRng, maxDets, mean_s))
             return mean_s
+
         def _summarizeDets():
             stats = np.zeros((12,))
             stats[0] = _summarize(1)
@@ -113,6 +116,9 @@ def convert_coco(df, truth=True, img_meta_df=None):
         coco_dict["annotations"].append({"id": i, "score": row["confidence_score"], 
                                          "image_id": image_id, "category_id": category_id, "area": area,
                                          "bbox": [row["x_min"], row["y_min"], row["x_max"], row["y_max"]], "iscrowd": 0})
+    # for i in range(107):
+    #     coco_dict["categories"].append({"id": i, "name": str(i)})
+
     if truth:
         return coco_dict, img_meta
     else:
