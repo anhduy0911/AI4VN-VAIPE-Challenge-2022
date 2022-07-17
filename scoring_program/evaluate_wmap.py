@@ -92,46 +92,56 @@ class COCOeval_wmAP(COCOeval):
             summarize = _summarizeKps
         self.stats = summarize()
 
-def convert_coco(df, truth=True, img_meta_df=None):
+def convert_coco(df):
     "Convert dataframe to COCO json format"
     coco_dict = {"images": [], "annotations": [], "categories": []}
-    img_meta = {}
+    seen_labs = []
+    seen_img_names = []
     for i, row in df.iterrows():
-        image_id = i
+        image_id = row["image_name"].split('.')[0]
         image_name = row["image_name"]
-        if truth:
-            image_width = row["image_width"]
-            image_height = row["image_height"]
-            if image_name not in img_meta.keys():
-                img_meta[image_name] = (image_width, image_height)
-        else:
-            if image_name not in img_meta_df.keys():
-                raise Exception('There is a image_name not exist in dataset!')
-            image_width, image_height = img_meta_df[image_name]
-        coco_dict["images"].append({"id": image_id, "file_name": image_name, "width": image_width, "height": image_height})
+        image_width = row["image_width"]
+        image_height = row["image_height"]
+        if image_id not in seen_img_names:
+            coco_dict["images"].append({"id": image_id, "file_name": image_name, "width": image_width, "height": image_height})
+            seen_img_names.append(image_id)
         category_id = row["class_id"]
         category_name = str(category_id)
         area = (row["x_max"] - row["x_min"]) * (row["y_max"] - row["y_min"])
-        coco_dict["categories"].append({"id": category_id, "name": category_name})
+        if category_id not in seen_labs:
+            coco_dict["categories"].append({"id": category_id, "name": category_name})
+            seen_labs.append(category_id)
         coco_dict["annotations"].append({"id": i, "score": row["confidence_score"], 
                                          "image_id": image_id, "category_id": category_id, "area": area,
-                                         "bbox": [row["x_min"], row["y_min"], row["x_max"], row["y_max"]], "iscrowd": 0})
+                                         "bbox": [row["x_min"], row["y_min"], row["x_max"] - row["x_min"], row["y_max"] - row["y_min"]], "iscrowd": 0})
+    
+    # coco_dict["categories"] = set(coco_dict["categories"])
     # for i in range(107):
     #     coco_dict["categories"].append({"id": i, "name": str(i)})
 
-    if truth:
-        return coco_dict, img_meta
-    else:
-        return coco_dict
+    return coco_dict
+
+def convert_coco_predict(df):
+    result = []
+    for i, row in df.iterrows():
+        row_i = {}
+        row_i['image_id'] = row['image_name'].split('.')[0]
+        row_i['category_id'] = row['class_id']
+        row_i['bbox'] = [row["x_min"], row["y_min"], row["x_max"] - row["x_min"], row["y_max"] - row["y_min"]]
+        row_i['score'] = row['confidence_score']
+        result.append(row_i)
+    
+    return result
 
 def wmAP(gt_df, pred_df, output_dir):
-    gt_coco, img_meta = convert_coco(gt_df, truth=True)
-    pred_coco = convert_coco(pred_df, truth=False, img_meta_df=img_meta)
+    gt_coco = convert_coco(gt_df)
+    pred_coco = convert_coco_predict(pred_df)
+    # pred_coco = convert_coco(pred_df, truth=False, img_meta_df=img_meta)
     json.dump(gt_coco, open(os.path.join(output_dir,"gt.json"), "w"))
     json.dump(pred_coco, open(os.path.join(output_dir,"pred.json"), "w"))
     cocoGt = COCO(os.path.join(output_dir,"gt.json"))
-    cocoPt = COCO(os.path.join(output_dir,"pred.json"))
-    cocoEval = COCOeval_wmAP(cocoGt, cocoPt, iouType='bbox')
+    cocoPt = cocoGt.loadRes(os.path.join(output_dir,"pred.json"))
+    cocoEval = COCOeval_wmAP(cocoGt, cocoPt, iouType='bbox', alpha=3)
     cocoEval.evaluate()
     cocoEval.accumulate()
     cocoEval.summarize()

@@ -36,7 +36,7 @@ def zip_files(name, folder):
         exit()
 
 if __name__ == "__main__":
-    print('Hello, hehe')
+    # print('Hello, hehe')
     [_, input_dir, output_dir] = sys.argv
     submission_dir = os.path.join(input_dir, 'res')
     truth_dir = os.path.join(input_dir, 'ref')

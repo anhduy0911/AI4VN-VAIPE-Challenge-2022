@@ -5,8 +5,8 @@ import random
 
 ##Hyperparameters controlling prediction quality
 alpha = 0.95
-predicted_acc = 0.8
-extra_box_rate = 0.1
+predicted_acc = 0.9
+extra_box_rate = 0.05
 
 # gt = {"image_name": [], "class_id": [], "confidence_score": [], "x_min": [], "y_min": [], "x_max": [], "y_max": [], "image_width": [], "image_height": []}
 # for image_id in range(1000):
@@ -41,6 +41,7 @@ predictions_df["x_min"] = predictions_df["x_min"].apply(lambda x: int(max(0,min(
 predictions_df["x_max"] = predictions_df["x_max"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 5000))))
 predictions_df["y_min"] = predictions_df["y_min"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 5000))))
 predictions_df["y_max"] = predictions_df["y_max"].apply(lambda x: int(max(0,min(random.uniform(x-20, x+20), 5000))))
+predictions_df.drop(['image_width', 'image_height'], axis=1, inplace=True)
 predictions_df.to_csv("results.csv", index=False)
 
 unique_id = gt_df["image_name"].unique().tolist()
